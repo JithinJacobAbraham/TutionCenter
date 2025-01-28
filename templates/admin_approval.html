@@ -1,0 +1,58 @@
+{% extends "admin_navbar.html" %}
+{% block content %}
+<div class="container text-center mt-3">
+
+    <br><br>
+    <h2 class="text-center">ADMIN APPROVAL</h2>
+    <!-- {% for message in messages %}
+        <h5>
+            <div class="alert alert-danger mt-5" style="width:100%">
+                {{ message}}
+            </div>
+        </h5>
+        {% endfor %} -->
+
+        <!-- messages -->
+    <div class="messages-container">
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message}}</div>
+        {% endfor %}
+    </div>    
+
+    <table class="table table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">User Type</th>
+                <th scope="col">NAME</th>
+                <th scope="col">EMAIL</th>
+                <th scope="col">ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in user_data %}
+            <tr>
+                <td>
+                    {% if data.user_type == 2 %} Teacher
+                    {% elif data.user_type == 3 %} Student
+                    {% else %} Unknown
+                    {% endif %}
+                </td>
+                <td>{{ data.first_name }} {{ data.last_name }}</td>
+                <td>{{ data.email }}</td>
+                <td>
+                    {% if data.status == 0 %}
+                        <a href="{% url 'approve' data.id %}" class="btn btn-info">Approve</a>
+                        &nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'disapprove' data.id %}" class="btn btn-danger">Disapprove</a>
+                    {% elif data.status == 1 %}
+                        <button class="btn btn-info">Approved</button>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+</div>
+{% endblock %}
